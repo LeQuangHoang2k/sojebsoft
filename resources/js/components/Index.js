@@ -1,18 +1,28 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 
 function Index() {
-    return (
-        <div className="container">
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card">
-                        <div className="card-header">Example Component</div>
+    const [x, setX] = useState([]);
 
-                        <div className="card-body">I'm an example component!</div>
+    useEffect(() => {
+        LoadData();
+    }, []);
+
+    const LoadData = async () => {
+        const res = await axios.get("/api");
+        setX(res.data);
+    };
+
+    return (
+        <div className="container" style={{ backgroundColor: "red" }}>
+            {x.map((item) => {
+                return (
+                    <div key={item.id}>
+                        {item.name}, {item.email}
                     </div>
-                </div>
-            </div>
+                );
+            })}
         </div>
     );
 }
